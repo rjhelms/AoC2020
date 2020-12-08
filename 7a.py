@@ -1,10 +1,12 @@
 dict_checked = {}
 bags = {}
 
+
 def log_level(message, level):
     for i in range(level):
         print("-", end="")
     print(message)
+
 
 def check_bag(color, level):
 
@@ -39,20 +41,24 @@ def check_bag(color, level):
 if __name__ == "__main__":
 
     with open("7a.txt", "r") as f:
-        data = f.read().splitlines()
+        data = (
+            f.read()
+            .replace(" contain no other", "")
+            .replace(" bags", "")
+            .replace(" bag", "")
+            .replace(" contain ", ",")
+            .replace(".", "")
+            .splitlines()
+        )
         for line in data:
-            split = line[:-1].split("contain")
-            bag = split[0].split(" bag")[0]
+            split = line.split(",")
+            bag = split[0]
             contents = []
-            if split[1] != " no other bags":
-                contents_string = split[1][1:].split(", ")
-                for rule in contents_string:
-                    number = int(rule.split(" bag")[0].split(" ")[0])
-                    color = (
-                        rule.split(" bag")[0].split(" ")[1]
-                        + " "
-                        + rule.split(" bag")[0].split(" ")[2]
-                    )
+            if len(split) > 1:
+                for i in split[1:]:
+                    i = i.strip()
+                    number = int(i[0])
+                    color = i[2:]
                     contents.append([color, number])
 
             bags[bag] = contents
