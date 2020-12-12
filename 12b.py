@@ -21,33 +21,19 @@ if __name__ == "__main__":
             waypoint_y += instruction[1]
         elif instruction[0] == "W":
             waypoint_x -= instruction[1]
-        elif instruction[0] == "L":
-            if instruction[1] == 90:
-                new_waypoint_y = -waypoint_x
-                waypoint_x = waypoint_y
-                waypoint_y = new_waypoint_y
-            if instruction[1] == 180:
-                waypoint_x = -waypoint_x
-                waypoint_y = -waypoint_y
-            if instruction[1] == 270:
-                new_waypoint_y = waypoint_x
-                waypoint_x = -waypoint_y
-                waypoint_y = new_waypoint_y
-        elif instruction[0] == "R":
-            if instruction[1] == 90:
-                new_waypoint_y = waypoint_x
-                waypoint_x = -waypoint_y
-                waypoint_y = new_waypoint_y
-            if instruction[1] == 180:
-                waypoint_x = -waypoint_x
-                waypoint_y = -waypoint_y
-            if instruction[1] == 270:
-                new_waypoint_y = -waypoint_x
-                waypoint_x = waypoint_y
-                waypoint_y = new_waypoint_y
         elif instruction[0] == "F":
             x += waypoint_x * instruction[1]
             y += waypoint_y * instruction[1]
+        elif instruction[1] == 180:
+            waypoint_x, waypoint_y = -waypoint_x, -waypoint_y
+        else:
+            angle = instruction[1]
+            if instruction[0] == "L":
+                angle = 360 - angle
+            if angle == 90:
+                waypoint_x, waypoint_y = -waypoint_y, waypoint_x
+            elif angle == 270:
+                waypoint_x, waypoint_y = waypoint_y, -waypoint_x
 
         print(
             instruction[0],
